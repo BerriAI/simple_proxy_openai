@@ -1,4 +1,4 @@
 fastapi
 uvicorn
 uuid
-openai
+openai==1.14.2
