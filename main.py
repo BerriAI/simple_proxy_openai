@@ -21,7 +21,7 @@ app.add_middleware(
 )
 
 litellm_client = AsyncOpenAI(
-    base_url="https://exampleopenaiendpoint-production-0ee2.up.railway.app/",
+    base_url="https://worker-for-ishaan.aimoda.dev/",
     api_key="sk-1234",
 )
 
