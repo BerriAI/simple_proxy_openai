@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uuid
 import openai
 from openai import AsyncOpenAI
+import aiohttp
 
 app = FastAPI()
 
@@ -26,24 +27,40 @@ litellm_client = AsyncOpenAI(
 )
 
 
+http_client: aiohttp.ClientSession = aiohttp.ClientSession()
+
+
 # for completion
 @app.post("/chat/completions")
 @app.post("/v1/chat/completions")
-async def completion(request: Request):
-    # this proxy uses the OpenAI SDK to call a fixed endpoint
-
-    response = await litellm_client.chat.completions.create(
-        model="anything",
-        messages=[
+async def proxy_completion(request: Request):
+    # Get the raw request body
+    body = {
+        "model": "anything",
+        "messages": [
             {
                 "role": "user",
                 "content": "hello who are you",
             }
         ],
-    )
+    }
+    
+    # Get the authorization header
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Authorization header missing")
 
-    return response
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': auth_header
+    }
 
+    async with http_client.post(
+        'https://exampleopenaiendpoint-production.up.railway.app/chat/completions',
+        headers=headers,
+        json=body
+    ) as response:
+        return await response.json()
 
 if __name__ == "__main__":
     import uvicorn
