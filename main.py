@@ -21,7 +21,7 @@ app.add_middleware(
 )
 
 litellm_client = AsyncOpenAI(
-    base_url="https://worker-for-ishaan.aimoda.dev/",
+    base_url="https://openai-gpt-4-test-v-1.openai.azure.com/",
     api_key="sk-1234",
 )
 
