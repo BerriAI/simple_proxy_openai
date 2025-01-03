@@ -27,13 +27,12 @@ litellm_client = AsyncOpenAI(
 )
 
 
-http_client: aiohttp.ClientSession = aiohttp.ClientSession()
-
-
+http_client: aiohttp.ClientSession = None
 # for completion
 @app.post("/chat/completions")
 @app.post("/v1/chat/completions")
 async def proxy_completion(request: Request):
+    global http_client
     # Get the raw request body
     body = await request.json()
     
@@ -41,6 +40,9 @@ async def proxy_completion(request: Request):
     auth_header = request.headers.get('Authorization')
     if not auth_header:
         raise HTTPException(status_code=401, detail="Authorization header missing")
+
+    if http_client is None:
+        http_client = aiohttp.ClientSession()
 
     headers = {
         'Content-Type': 'application/json',
