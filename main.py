@@ -10,6 +10,8 @@ import uuid
 import openai
 from openai import AsyncOpenAI
 import aiohttp
+import litellm
+from litellm.router import Router
 
 app = FastAPI()
 
@@ -57,6 +59,19 @@ async def proxy_completion(request: Request):
         return await response.json()
 
 
+router = Router(
+    model_list=[
+        {
+            "model_name": "fake-openai-endpoint",
+            "litellm_params": {
+                "model": "aiohttp_openai/any",
+                "api_key": "my-key",
+                "api_base": "https://example-openai-endpoint.onrender.com/v1/chat/completions",
+            },
+        }
+    ]
+)
+
 @app.post("/lite/chat/completions")
 @app.post("/lite/v1/chat/completions")
 async def lite_completion(request: Request):
@@ -68,12 +83,9 @@ async def lite_completion(request: Request):
     auth_header = request.headers.get('Authorization')
     if not auth_header:
         raise HTTPException(status_code=401, detail="Authorization header missing")
-    import litellm
-    response = await litellm.acompletion(
-        model="openai/any",
+    response = await router.acompletion(
+        model="fake-openai-endpoint",
         **body,
-        api_base="https://example-openai-endpoint.onrender.com",
-        api_key="sk-1234",
     )
     return response
 
