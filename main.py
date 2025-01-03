@@ -70,7 +70,7 @@ async def lite_completion(request: Request):
     response = await litellm.acompletion(
         model="openai/any",
         **body,
-        api_base="https://exampleopenaiendpoint-production.up.railway.app/v1/chat/completions",
+        api_base="https://exampleopenaiendpoint-production.up.railway.app",
         api_key="sk-1234",
     )
     return response
