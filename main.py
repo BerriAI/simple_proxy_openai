@@ -72,7 +72,6 @@ async def lite_completion(request: Request):
         **body,
         api_base="https://exampleopenaiendpoint-production.up.railway.app/v1/chat/completions",
         api_key="sk-1234",
-        
     )
     return response
 
