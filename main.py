@@ -48,7 +48,7 @@ async def proxy_completion(request: Request):
     }
 
     async with http_client.post(
-        'https://exampleopenaiendpoint-production.up.railway.app/chat/completions',
+        'https://example-openai-endpoint.onrender.com/chat/completions',
         headers=headers,
         json=body
     ) as response:
@@ -70,7 +70,7 @@ async def lite_completion(request: Request):
     response = await litellm.acompletion(
         model="aiohttp_openai/any",
         **body,
-        api_base="https://exampleopenaiendpoint-production.up.railway.app/v1/chat/completions",
+        api_base="https://example-openai-endpoint.onrender.com/v1/chat/completions",
         api_key="sk-1234",
     )
     return response
