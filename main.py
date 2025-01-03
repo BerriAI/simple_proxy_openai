@@ -35,15 +35,7 @@ http_client: aiohttp.ClientSession = aiohttp.ClientSession()
 @app.post("/v1/chat/completions")
 async def proxy_completion(request: Request):
     # Get the raw request body
-    body = {
-        "model": "anything",
-        "messages": [
-            {
-                "role": "user",
-                "content": "hello who are you",
-            }
-        ],
-    }
+    body = await request.json()
     
     # Get the authorization header
     auth_header = request.headers.get('Authorization')
@@ -61,6 +53,29 @@ async def proxy_completion(request: Request):
         json=body
     ) as response:
         return await response.json()
+
+
+@app.post("/lite/chat/completions")
+@app.post("/lite/v1/chat/completions")
+async def lite_completion(request: Request):
+    # Get the raw request body
+    body = await request.json()
+    body.pop("model", None)
+    
+    # Get the authorization header
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Authorization header missing")
+
+    import litellm
+    response = await litellm.acompletion(
+        model="aiohttp_openai/gpt-4o",
+        **body,
+        api_base="https://exampleopenaiendpoint-production.up.railway.app/",
+        
+    )
+    return response
+
 
 if __name__ == "__main__":
     import uvicorn
