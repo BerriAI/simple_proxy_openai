@@ -103,7 +103,7 @@ async def lite_sdk_completion(request: Request):
         raise HTTPException(status_code=401, detail="Authorization header missing")
     response = await litellm.acompletion(
         model="aiohttp_openai/fake-openai-endpoint",
-        api_base="https://example-openai-endpoint.onrender.com/",
+        api_base="https://example-openai-endpoint.onrender.com/v1/chat/completions",
         api_key="my-key",
         **body,
     )
