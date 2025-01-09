@@ -90,6 +90,25 @@ async def lite_completion(request: Request):
     return response
 
 
+@app.post("/lite_sdk/chat/completions")
+@app.post("/lite_sdk/v1/chat/completions")
+async def lite_sdk_completion(request: Request):
+    # Get the raw request body
+    body = await request.json()
+    body.pop("model", None)
+    
+    # Get the authorization header
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Authorization header missing")
+    response = await litellm.acompletion(
+        model="fake-openai-endpoint",
+        api_base="https://example-openai-endpoint.onrender.com/"
+        **body,
+    )
+    return response
+
+
 if __name__ == "__main__":
     import uvicorn
 
