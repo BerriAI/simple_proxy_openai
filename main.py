@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 litellm_client = AsyncOpenAI(
-    base_url="https://exampleopenaiendpoint-production.up.railway.app/",
+    base_url="https://exampleopenaiendpoint-production-0ee2.up.railway.app/",
     api_key="sk-1234",
 )
 
@@ -52,7 +52,7 @@ async def proxy_completion(request: Request):
     }
 
     async with http_client.post(
-        'https://example-openai-endpoint.onrender.com/chat/completions',
+        'https://exampleopenaiendpoint-production-0ee2.up.railway.app/chat/completions',
         headers=headers,
         json=body
     ) as response:
@@ -64,9 +64,9 @@ router = Router(
         {
             "model_name": "fake-openai-endpoint",
             "litellm_params": {
-                "model": "aiohttp_openai/any",
+                "model": "openai/any",
                 "api_key": "my-key",
-                "api_base": "https://example-openai-endpoint.onrender.com/v1/chat/completions",
+                "api_base": "https://exampleopenaiendpoint-production-0ee2.up.railway.app/v1/chat/completions",
             },
         }
     ]
@@ -102,8 +102,8 @@ async def lite_sdk_completion(request: Request):
     if not auth_header:
         raise HTTPException(status_code=401, detail="Authorization header missing")
     response = await litellm.acompletion(
-        model="aiohttp_openai/fake-openai-endpoint",
-        api_base="https://example-openai-endpoint.onrender.com/v1/chat/completions",
+        model="openai/fake-openai-endpoint",
+        api_base="https://exampleopenaiendpoint-production-0ee2.up.railway.app//v1/chat/completions",
         api_key="my-key",
         **body,
     )
