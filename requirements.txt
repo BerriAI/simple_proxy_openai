@@ -10,5 +10,5 @@ uvicorn==0.22.0 # server dep
 gunicorn==21.2.0 # server dep
 ### LITELLM PACKAGE DEPENDENCIES
 certifi>=2023.7.22 # [TODO] clean up 
-aiohttp==3.9.0 # for network calls
+aiohttp>=3.10.0 # for network calls
 ####
