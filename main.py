@@ -66,7 +66,7 @@ router = Router(
             "litellm_params": {
                 "model": "openai/any",
                 "api_key": "my-key",
-                "api_base": "https://exampleopenaiendpoint-production-0ee2.up.railway.app/v1/chat/completions",
+                "api_base": "https://exampleopenaiendpoint-production-0ee2.up.railway.app/",
             },
         }
     ]
@@ -103,7 +103,7 @@ async def lite_sdk_completion(request: Request):
         raise HTTPException(status_code=401, detail="Authorization header missing")
     response = await litellm.acompletion(
         model="openai/fake-openai-endpoint",
-        api_base="https://exampleopenaiendpoint-production-0ee2.up.railway.app/v1/chat/completions",
+        api_base="https://exampleopenaiendpoint-production-0ee2.up.railway.app/",
         api_key="my-key",
         **body,
     )
