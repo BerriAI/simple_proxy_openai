@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
+import os
 import uuid
 import openai
 from openai import AsyncOpenAI
@@ -25,7 +26,7 @@ app.add_middleware(
 
 litellm_client = AsyncOpenAI(
     base_url="https://exampleopenaiendpoint-production-0ee2.up.railway.app/",
-    api_key="sk-1234",
+    api_key=os.environ.get("MOCK_OPENAI_API_KEY") or "fake-api-key",
 )
 
 
