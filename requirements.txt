@@ -7,7 +7,7 @@ pydantic>=2.5 # openai req.
 backoff==2.2.1 # server dep
 pyyaml>=6.0.1 # server dep
 uvicorn==0.22.0 # server dep
-gunicorn==21.2.0 # server dep
+gunicorn==22.0.0 # server dep
 ### LITELLM PACKAGE DEPENDENCIES
 certifi>=2023.7.22 # [TODO] clean up 
 aiohttp>=3.10.0 # for network calls
