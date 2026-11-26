@@ -1,5 +1,5 @@
 # LITELLM PROXY DEPENDENCIES #
-anyio==4.4.0 # openai + http req.
+anyio==4.14.2 # openai + http req.
 openai>=1.0.0 # openai req. 
 fastapi==0.115.5 # server dep
 litellm==1.75.9
